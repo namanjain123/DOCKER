@@ -1,0 +1,23 @@
+version: '3.2'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=CEleb@L_TECH
+      #- TZ=Europe/Berlin
+      #- MSSQL_PID=Express
+    ports:
+      - 1433:1433
+    volumes:
+      - "./DatabaseLayer/data/:/var/opt/mssql/data/"
+      - "./DatabaseLayer/log/:/var/opt/mssql/log/"
+      - "./DatabaseLayer/secrets/:/var/opt/mssql/secrets/"
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
+  bot_project:
+    build:
+      context: .
+      dockerfile: Dockerfile  
+    ports:
+      - 3978:80  # Port exposed by your bot application
+    
