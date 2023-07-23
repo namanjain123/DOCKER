@@ -1,0 +1,51 @@
+version: '3'
+services:
+
+  backend:
+    container_name: webapi
+    build: ./webapi
+    #network_mode: "host"
+    ports:
+      # replace your webapp's .env 'REACT_APP_BACKEND_URI' with it
+      - 8090:80
+    environment:
+      - Kestrel__Endpoints__Https__Url=http://+:80
+      - AIService__Endpoint=https://sk-109-openai.openai.azure.com/
+      - AIService__Key=fc90983421984269a8b793c31897603d
+      - AIService__Models__Completion=gpt-35-turbo
+      - AIService__Models__Embedding=text-embedding-ada-002
+      - AIService__Models__Planner=gpt-35-turbo
+      - AIService__Type=AzureOpenAI
+      - AllowedOrigins__0=http://localhost:3000
+      #- ChatStore__Filesystem__FilePath=./data/chatstore.json
+      #- ChatStore__Type=filesystem
+      #- MemoriesStore__Qdrant__Host=http://qdrant
+      #- MemoriesStore__Type=qdrant
+    # volumes:
+    #   - chat_store_data:/app/data
+    depends_on:
+      - frontend
+      #- qdrant
+
+ 
+
+  frontend:
+    container_name: webapp
+    build: ./webapp
+    #network_mode: "host"    
+    ports:
+      - 3000:80
+
+ 
+
+#   qdrant:
+#     container_name: qdarant
+#     image: qdrant/qdrant:latest
+#     #network_mode: "host"
+#     ports:
+#       - 6333:6333
+
+ 
+
+# volumes:
+#   chat_store_data:
