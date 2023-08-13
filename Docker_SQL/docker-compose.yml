@@ -1,0 +1,16 @@
+version: '3'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=CEleb@L_TECH
+      #- TZ=Europe/Berlin
+      #- MSSQL_PID=Express
+    ports:
+      - 1433:1433
+    volumes:
+      - "./data/:/var/opt/mssql/data/"
+      - "./log/:/var/opt/mssql/log/"
+      - "./secrets/:/var/opt/mssql/secrets/"
+      #- ./init.sql:/docker-entrypoint-initdb.d/init.sql
